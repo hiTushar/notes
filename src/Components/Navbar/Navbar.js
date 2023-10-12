@@ -1,10 +1,8 @@
-import { Link, Routes, useNavigate } from "react-router-dom";
-import Home from "../Home/Home";
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
     return (
-        <>
+        <div>
             <div>
                 <Link to="/">Home</Link>
             </div>
@@ -14,6 +12,6 @@ export default function Navbar() {
             <div>
                 <Link to="/settings">Settings</Link>
             </div>
-        </>
+        </div>
     );
 }

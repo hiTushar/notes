@@ -7,13 +7,15 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Navbar />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/add' element={<AddNote />} />
-          <Route path='/notes' element={<NoteList />} />
-          <Route path='/notes/:id' element={<Note />} />
-          <Route path='/settings' element={<Settings />} />
-        </Routes>
+        <div>
+          <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/add' element={<AddNote />} />
+              <Route path='/notes/:id' element={<Note />} />
+              <Route path='/notes' element={<NoteList />} />
+              <Route path='/settings' element={<Settings />} />
+          </Routes>
+          </div>
       </BrowserRouter>
     </div>
   );
