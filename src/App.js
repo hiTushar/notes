@@ -1,8 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Navbar, Home, AddNote, Note, Settings } from './Components';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function App() {
   const navbar = useSelector(state => state.navbar);
@@ -24,10 +23,8 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <div style={{ display: 'flex', flexDirection: getFlexDirection() }}>
-          <div style={{ border: 'solid 1px' }}>
-            <Navbar navbar={navbar} style={{...getNavbarStyle()}} />
-          </div>
+        <div className={`d-flex flex-${getFlexDirection()}`} style={{ height: '100vh' }}>
+          <Navbar navbar={navbar} style={{...getNavbarStyle()}} />
           <div className='flex-grow-1'>
             <Routes>
                 <Route path='/' element={<Home />} />

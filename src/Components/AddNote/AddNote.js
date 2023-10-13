@@ -27,8 +27,9 @@ export default function AddNote() {
 
     return (
         <div className="p-5">
+            <p className="fs-1">Add a new note</p>
             <Card>
-                <Card.Header>Add a new note</Card.Header>
+                <Card.Header>{new Date().toLocaleString('en-IN')}</Card.Header>
                 <Card.Body>
                     <Form onSubmit={onSubmit}>
                         <Form.Group controlId='title'>

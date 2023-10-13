@@ -1,4 +1,4 @@
-import { Container, ListGroup } from "react-bootstrap";
+import { ListGroup } from "react-bootstrap";
 
 export default function NoteList() {
     let allNotes = localStorage.getItem("notes");
@@ -15,6 +15,6 @@ export default function NoteList() {
     };
 
     return (
-        <Container>{allNotes && getList()}</Container>
+        <div>{allNotes && getList()}</div>
     )
 }

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Card, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import navbarDirection from "../../Redux/Actions/navbarActions";
 
 export default function Settings() {
@@ -12,10 +12,18 @@ export default function Settings() {
 
     return (
         <div className="p-5">
-            <ToggleButtonGroup type='radio' name='navbar-setting' defaultValue={navbar} onChange={changeNavbarPosition}>
-                <ToggleButton id='top' value='top'>Top</ToggleButton>
-                <ToggleButton id='side' value='side'>Side</ToggleButton>
-            </ToggleButtonGroup>
+            <p className="fs-1">Settings</p>
+            <Card style={{ width: '500px' }}>
+                <Card.Body>
+                    <Card.Title className="mb-4">Change Navigation Bar Position</Card.Title>
+                    <Card.Text>
+                        <ToggleButtonGroup type='radio' name='navbar-setting' defaultValue={navbar} onChange={changeNavbarPosition}>
+                            <ToggleButton id='top' value='top'>Top</ToggleButton>
+                            <ToggleButton id='side' value='side'>Side</ToggleButton>
+                        </ToggleButtonGroup>
+                    </Card.Text>
+                </Card.Body>
+            </Card>
         </div>
     )
 }
