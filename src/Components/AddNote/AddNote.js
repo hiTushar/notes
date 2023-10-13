@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { Toast, ToastContainer, Button, Card, Form, Row, Col } from "react-bootstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+
 import ReactMarkdown from "react-markdown";
+import { useNavigate } from "react-router-dom";
 
 export default function AddNote() {
     let titleRef = useRef(null);
     const [note, setNote] = useState(null);
     const [toast, setToast] = useState(false);
     const [reset, setReset] = useState(0);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         // rerendering the component, using 'reset' state, so that we get the current date-time as the title of the new blank note
@@ -40,7 +46,7 @@ export default function AddNote() {
     let datetime = new Date();
     return (
         <div className="position-relative">
-            <div className="p-5">
+            <div className="p-3">
                 <p className="fs-1">Add a new note</p>
                 <Card>
                     <Card.Header>{datetime.toLocaleString('en-IN')}</Card.Header>
@@ -81,6 +87,11 @@ export default function AddNote() {
                         </Form>
                     </Card.Body>
                 </Card>
+                <div className="mt-3">
+                    <Button type='primary'>
+                        <FontAwesomeIcon icon={faArrowLeft} onClick={() => navigate(-1)} />
+                    </Button>
+                </div>
             </div>
             {
                 <ToastContainer className='p-3' position='top-start' style={{ zIndex: 1 }}>

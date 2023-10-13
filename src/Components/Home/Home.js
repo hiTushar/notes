@@ -6,7 +6,7 @@ export default function Home() {
     const navigate = useNavigate();
 
     return (
-        <div className="p-5">
+        <div className="p-3">
             <p className="fs-1">Home</p>
             <Button className='mb-3' variant="primary" onClick={() => navigate("/add")}>
                 Add Note

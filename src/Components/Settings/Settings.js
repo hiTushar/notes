@@ -11,7 +11,7 @@ export default function Settings() {
     }
 
     return (
-        <div className="p-5">
+        <div className="p-3">
             <p className="fs-1">Settings</p>
             <Card style={{ width: '500px' }}>
                 <Card.Body>
