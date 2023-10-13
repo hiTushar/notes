@@ -9,7 +9,7 @@ export default function NoteList() {
     const getList = () => {
         return (
             <ListGroup>
-                {allNotes.map((note) => <ListGroup.Item key={note.id}>{note.title}</ListGroup.Item>)}
+                {allNotes.map((note) => <ListGroup.Item key={note.id}>{new Date(note.timestamp).toLocaleString('en-IN')} - {note.title}</ListGroup.Item>)}
             </ListGroup>
         );
     };

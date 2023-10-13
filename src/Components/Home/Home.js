@@ -8,7 +8,7 @@ export default function Home() {
     return (
         <div className="p-5">
             <p className="fs-1">Home</p>
-            <Button variant="primary" onClick={() => navigate("/add")}>
+            <Button className='mb-3' variant="primary" onClick={() => navigate("/add")}>
                 Add Note
             </Button>
             <NoteList />
