@@ -26,7 +26,7 @@ export default function AddNote() {
     }
 
     return (
-        <Container>
+        <div className="p-5">
             <Card>
                 <Card.Header>Add a new note</Card.Header>
                 <Card.Body>
@@ -66,6 +66,6 @@ export default function AddNote() {
                     </Form>
                 </Card.Body>
             </Card>
-        </Container>
+        </div>
     )
 }
