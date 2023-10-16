@@ -25,15 +25,7 @@ export default function NoteList() {
         }
         setNotes(allNotes);
         setNotesDisplay(allNotes.slice(0, notes_per_page));
-    
-        let totalNoOfPages = 0;
-        if(allNotes.length % notes_per_page !== 0) {
-            totalNoOfPages = parseInt(allNotes.length / notes_per_page) + 1;
-        }
-        else {
-            totalNoOfPages = parseInt(allNotes.length / notes_per_page);
-        }
-        setTotalPage(totalNoOfPages);
+        setTotalPage(getTotalPages(allNotes, notes_per_page));
     }, [])
 
     useEffect(() => {
@@ -45,8 +37,20 @@ export default function NoteList() {
                 return true;
             });
             setNotesDisplay(filteredNotes.slice(currentPage, notes_per_page));
+            setTotalPage(getTotalPages(filteredNotes, notes_per_page));
         }
     }, [notes, currentPage, searchVal])
+
+    const getTotalPages = (currentNotes, notes_per_page) => {
+        let totalNoOfPages = 0;
+        if(currentNotes.length % notes_per_page !== 0) {
+            totalNoOfPages = parseInt(currentNotes.length / notes_per_page) + 1;
+        }
+        else {
+            totalNoOfPages = parseInt(currentNotes.length / notes_per_page);
+        }
+        return totalNoOfPages;
+    }
 
     const deleteNote = (noteId) => {
         let newNotesList = notes.filter(note => note.id !== noteId);
