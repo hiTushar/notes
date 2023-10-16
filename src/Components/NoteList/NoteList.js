@@ -1,4 +1,4 @@
-import { ListGroup, Row, Col, Modal, Button } from "react-bootstrap";
+import { ListGroup, Row, Col, Modal, Button, InputGroup, Form } from "react-bootstrap";
 import moment from 'moment';
 import { useEffect, useState } from "react";
 import Controls from "./Controls";
@@ -13,6 +13,7 @@ export default function NoteList() {
     const [totalPage, setTotalPage] = useState(0);
     const [displayControls, setDisplayControls] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
+    const [searchVal, setSearchVal] = useState(null);
 
     useEffect(() => {
         let allNotes = localStorage.getItem("notes");
@@ -23,7 +24,7 @@ export default function NoteList() {
             allNotes = [];
         }
         setNotes(allNotes);
-        setNotesDisplay(allNotes.slice(currentPage, notes_per_page));
+        setNotesDisplay(allNotes.slice(0, notes_per_page));
     
         let totalNoOfPages = 0;
         if(allNotes.length % notes_per_page !== 0) {
@@ -36,9 +37,16 @@ export default function NoteList() {
     }, [])
 
     useEffect(() => {
-        if(notes !== null)
-            setNotesDisplay(notes.slice(currentPage, notes_per_page));
-    }, [currentPage, notes])
+        if(notes !== null) {
+            let filteredNotes = notes.filter(item => {
+                if(searchVal) {
+                    return item.title.toLowerCase().includes(searchVal.toLowerCase()) || item.note.toLowerCase().includes(searchVal.toLowerCase())
+                }
+                return true;
+            });
+            setNotesDisplay(filteredNotes.slice(currentPage, notes_per_page));
+        }
+    }, [notes, currentPage, searchVal])
 
     const deleteNote = (noteId) => {
         let newNotesList = notes.filter(note => note.id !== noteId);
@@ -78,12 +86,25 @@ export default function NoteList() {
         <div>{notes && (
             <>
                 <div>
+                    <Row className="mb-3">
+                        <Col>
+                            <InputGroup>
+                                <Form.Control 
+                                    type='text'
+                                    placeholder='Search here'
+                                    onChange={e => setSearchVal(e.target.value.trim())}
+                                    value={searchVal}
+                                />
+                            </InputGroup>
+                        </Col>
+                        <Col></Col>
+                    </Row>
                     <div className='mb-2'>
                         <PaginationComponent
                             totalPage={totalPage} 
                             currentPage={currentPage} 
                             setCurrentPage={setCurrentPage}
-                            />
+                        />
                     </div>
                     {getList()}
                 </div>
