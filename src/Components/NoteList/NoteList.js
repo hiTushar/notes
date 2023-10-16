@@ -1,4 +1,5 @@
 import { ListGroup } from "react-bootstrap";
+import moment from 'moment';
 
 export default function NoteList() {
     let allNotes = localStorage.getItem("notes");
@@ -9,7 +10,7 @@ export default function NoteList() {
     const getList = () => {
         return (
             <ListGroup>
-                {allNotes.map((note) => <ListGroup.Item key={note.id}>{new Date(note.timestamp).toLocaleString('en-IN')} - {note.title}</ListGroup.Item>)}
+                {allNotes.map((note) => <ListGroup.Item key={note.id}><b>{moment(note.timestamp).format('hh:mm A, Do MMM \'YY, dddd')}</b> - {note.title}</ListGroup.Item>)}
             </ListGroup>
         );
     };
