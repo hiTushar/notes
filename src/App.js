@@ -25,7 +25,7 @@ function App() {
       <BrowserRouter>
         <div className={`d-flex flex-${getFlexDirection()}`} style={{ height: '100vh' }}>
           <Navbar navbar={navbar} style={{...getNavbarStyle()}} />
-          <div className='flex-grow-1' style={{ height: '100vh', overflow: 'scroll' }}>
+          <div className='flex-grow-1 p-5' style={{ height: '100vh', overflow: 'scroll' }}>
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/add' element={<AddNote />} />

@@ -88,8 +88,8 @@ export default function AddNote() {
                     </Card.Body>
                 </Card>
                 <div className="mt-3">
-                    <Button type='primary'>
-                        <FontAwesomeIcon icon={faArrowLeft} onClick={() => navigate(-1)} />
+                    <Button onClick={() => navigate(-1)} type='primary'>
+                        <FontAwesomeIcon icon={faArrowLeft} />
                     </Button>
                 </div>
             </div>
