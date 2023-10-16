@@ -1,4 +1,4 @@
-import { ListGroup, Row, Col, Modal, Button, PageItem, Pagination } from "react-bootstrap";
+import { ListGroup, Row, Col, Modal, Button } from "react-bootstrap";
 import moment from 'moment';
 import { useEffect, useState } from "react";
 import Controls from "./Controls";
@@ -74,7 +74,6 @@ export default function NoteList() {
         );
     };
 
-    console.log(currentPage);
     return (
         <div>{notes && (
             <>
