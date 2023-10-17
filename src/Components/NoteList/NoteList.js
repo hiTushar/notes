@@ -7,13 +7,14 @@ import PaginationComponent from "./Pagination";
 const notes_per_page = 5;
 
 export default function NoteList() {
-    const [notes, setNotes] = useState(null);
-    const [notesDisplay, setNotesDisplay] = useState(null);
+    const [notes, setNotes] = useState([]);
+    const [notesDisplay, setNotesDisplay] = useState([]);
+    const [notesSearched, setNotesSearched] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
     const [displayControls, setDisplayControls] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
-    const [searchVal, setSearchVal] = useState(null);
+    const [searchVal, setSearchVal] = useState('');
 
     useEffect(() => {
         let allNotes = localStorage.getItem("notes");
@@ -24,22 +25,24 @@ export default function NoteList() {
             allNotes = [];
         }
         setNotes(allNotes);
-        setNotesDisplay(allNotes.slice(0, notes_per_page));
-        setTotalPage(getTotalPages(allNotes, notes_per_page));
     }, [])
 
     useEffect(() => {
-        if(notes !== null) {
-            let filteredNotes = notes.filter(item => {
-                if(searchVal) {
-                    return item.title.toLowerCase().includes(searchVal.toLowerCase()) || item.note.toLowerCase().includes(searchVal.toLowerCase())
-                }
-                return true;
-            });
-            setNotesDisplay(filteredNotes.slice(currentPage, notes_per_page));
-            setTotalPage(getTotalPages(filteredNotes, notes_per_page));
-        }
-    }, [notes, currentPage, searchVal])
+        let filteredNotes = notes.filter(item => {
+            if(searchVal.length) {
+                return item.title.toLowerCase().includes(searchVal.toLowerCase()) || item.note.toLowerCase().includes(searchVal.toLowerCase())
+            }
+            return true;
+        });
+        setNotesSearched(filteredNotes);
+        setNotesDisplay(filteredNotes.slice(0, notes_per_page));
+        setTotalPage(getTotalPages(filteredNotes, notes_per_page));
+        setCurrentPage(0);
+    }, [searchVal, notes])
+
+    useEffect(() => {
+        setNotesDisplay(notesSearched.slice(currentPage * notes_per_page, (currentPage * notes_per_page) + notes_per_page));
+    }, [currentPage, notesSearched])
 
     const getTotalPages = (currentNotes, notes_per_page) => {
         let totalNoOfPages = 0;
@@ -90,19 +93,23 @@ export default function NoteList() {
         <div>{notes && (
             <>
                 <div>
-                    <Row className="mb-3">
-                        <Col>
-                            <InputGroup>
-                                <Form.Control 
-                                    type='text'
-                                    placeholder='Search here'
-                                    onChange={e => setSearchVal(e.target.value.trim())}
-                                    value={searchVal}
-                                />
-                            </InputGroup>
-                        </Col>
-                        <Col></Col>
-                    </Row>
+                    {
+                        notesDisplay.length ? (
+                            <Row className="mb-3">
+                                <Col>
+                                    <InputGroup>
+                                        <Form.Control 
+                                            type='text'
+                                            placeholder='Search here'
+                                            onChange={e => setSearchVal(e.target.value.trim())}
+                                            value={searchVal}
+                                        />
+                                    </InputGroup>
+                                </Col>
+                                <Col></Col>
+                            </Row>
+                        ) : <></>
+                    }
                     <div className='mb-2'>
                         <PaginationComponent
                             totalPage={totalPage} 
