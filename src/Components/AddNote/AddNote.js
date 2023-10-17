@@ -58,6 +58,7 @@ export default function AddNote() {
                                     type='text'
                                     placeholder='Enter the title'
                                     ref={titleRef}
+                                    required
                                 />
                             </Form.Group>
                             
@@ -70,6 +71,7 @@ export default function AddNote() {
                                             onChange={(e) => setNote(e.target.value)}
                                             rows={10}
                                             placeholder='Type here'
+                                            required
                                         />
                                     </Form.Group>
                                 </Col>
