@@ -30,9 +30,12 @@ export default function AddNote() {
             allNotes = [];
         }
 
+        if(!titleRef.current.value.trim().length) {
+            titleRef.current.value = note;
+        }
         const noteData = {
             id: datetime.valueOf(),
-            title: titleRef.current.value,
+            title: titleRef.current.value.trim(),
             timestamp: datetime.valueOf(),
             content: note
         }
@@ -58,7 +61,6 @@ export default function AddNote() {
                                     type='text'
                                     placeholder='Enter the title'
                                     ref={titleRef}
-                                    required
                                 />
                             </Form.Group>
                             
@@ -86,7 +88,7 @@ export default function AddNote() {
                             <Button type='submit' variant='primary'>
                                 Submit
                             </Button>
-                            <ToastContainer className='p-3' position='top-start' style={{ zIndex: 1 }}>
+                            <ToastContainer className='p-3' position='bottom-start' style={{ zIndex: 1 }}>
                                 <Toast bg='success' onClose={() => setToast(false)} show={toast} delay={3000} autohide >
                                     <Toast.Body><span className="text-light">Note Saved!</span></Toast.Body>
                                 </Toast>
