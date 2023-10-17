@@ -3,10 +3,13 @@ import './App.css';
 import { Navbar, Home, AddNote, Note, Settings } from './Components';
 import { useSelector } from 'react-redux';
 import EditNote from './Components/EditNote/EditNote';
+import { useContext } from 'react';
+import { ThemeContext } from './Context/ThemeContext';
 
 function App() {
   const navbar = useSelector(state => state.navbar);
-  
+  const { theme } = useContext(ThemeContext);
+
   const getFlexDirection = () => {
     return navbar === 'top' ? 'column' : 'row';
   }
@@ -22,7 +25,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className={`${theme === 'dark' ? 'dark' : ''}`}>
       <BrowserRouter>
         <div className={`d-flex flex-${getFlexDirection()}`} style={{ height: '100vh' }}>
           <Navbar navbar={navbar} style={{...getNavbarStyle()}} />
