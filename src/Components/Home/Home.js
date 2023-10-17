@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap";
+import { Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import NoteList from "../NoteList/NoteList";
 
@@ -8,10 +8,17 @@ export default function Home() {
     return (
         <div className="p-3">
             <p className="fs-1">Home</p>
-            <Button className='mb-3' variant="primary" onClick={() => navigate("/add")}>
-                Add Note
-            </Button>
-            <NoteList />
+                <Col>
+                    <Button className='mb-3' variant="primary" onClick={() => navigate("/add")}>
+                        Add Note
+                    </Button>
+                </Col>
+                <Col></Col>
+            <Row>
+                <Col>
+                    <NoteList />
+                </Col>
+            </Row>
         </div>
     );
 }

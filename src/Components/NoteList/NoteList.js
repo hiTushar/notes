@@ -1,9 +1,10 @@
-import { ListGroup, Row, Col, Modal, Button, InputGroup, Form } from "react-bootstrap";
-import moment from 'moment';
 import { useEffect, useState } from "react";
+import moment from 'moment';
+import { ListGroup, Row, Col, Modal, Button, InputGroup, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 import Controls from "./Controls";
 import PaginationComponent from "./Pagination";
-import { useNavigate } from "react-router-dom";
 
 const notes_per_page = 5;
 
@@ -73,7 +74,7 @@ export default function NoteList() {
                         <ListGroup.Item key={note.id}>
                             <Row>
                                 <Col>
-                                    <b>{moment(note.timestamp).format('hh:mm A, Do MMM \'YY, dddd')}</b> - {note.title}
+                                    <b>{moment(note.timestamp).format('hh:mm A, Do MMM \'YY, dddd')}</b> - <div className="text-truncate"><ReactMarkdown>{note.title}</ReactMarkdown></div>
                                 </Col>
                                 <Col>
                                     {

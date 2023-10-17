@@ -98,7 +98,7 @@ export default function EditNote() {
                             <Button variant='secondary' onClick={() => navigate('/')}>
                                 Cancel
                             </Button>
-                            <ToastContainer className='p-3' position='top-start' style={{ zIndex: 1 }}>
+                            <ToastContainer className='p-3' position='bottom-start' style={{ zIndex: 1 }}>
                                 <Toast bg='success' onClose={() => setToast(false)} show={toast} delay={3000} autohide >
                                     <Toast.Body><span className="text-light">Note Saved!</span></Toast.Body>
                                 </Toast>
