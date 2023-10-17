@@ -3,6 +3,7 @@ import moment from 'moment';
 import { useEffect, useState } from "react";
 import Controls from "./Controls";
 import PaginationComponent from "./Pagination";
+import { useNavigate } from "react-router-dom";
 
 const notes_per_page = 5;
 
@@ -15,6 +16,8 @@ export default function NoteList() {
     const [displayControls, setDisplayControls] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const [searchVal, setSearchVal] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         let allNotes = localStorage.getItem("notes");
@@ -76,7 +79,10 @@ export default function NoteList() {
                                     {
                                         displayControls ? (
                                             <div className='d-flex justify-content-end'>
-                                                <Controls openDelete={() => setDeleteModal(note.id)} />
+                                                <Controls 
+                                                    openDelete={() => setDeleteModal(note.id)} 
+                                                    openEdit={() => navigate(`/edit/${note.id}`)}    
+                                                />
                                             </div>
                                         ) : <></>
                                     }

@@ -2,23 +2,33 @@ import { useEffect, useRef, useState } from "react";
 import { Toast, ToastContainer, Button, Card, Form, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-
 import ReactMarkdown from "react-markdown";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function AddNote() {
+export default function EditNote() {
     let titleRef = useRef(null);
-    const [note, setNote] = useState(null);
+    const [content, setContent] = useState(null);
     const [toast, setToast] = useState(false);
-    const [reset, setReset] = useState(0);
+    const [currentNote, setCurrentNote] = useState({});
 
     const navigate = useNavigate();
 
+    const { noteId } = useParams();
+
     useEffect(() => {
-        // rerendering the component, using 'reset' state, so that we get the current date-time as the title of the new blank note
-        setNote('');
-        titleRef.current.value = '';
-    }, [reset])
+        let allNotes = localStorage.getItem("notes");
+        if (allNotes) {
+            allNotes = JSON.parse(allNotes);
+        }
+        else {
+            allNotes = [];
+        }
+        let editNote = allNotes.find(note => note.id === parseInt(noteId));
+        setCurrentNote({ ...editNote });
+
+        titleRef.current.value = editNote.title;
+        setContent(editNote.content);
+    }, [noteId])
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -30,26 +40,27 @@ export default function AddNote() {
             allNotes = [];
         }
 
+        let editNoteIndex = allNotes.findIndex(note => note.id === parseInt(noteId));
+
         const noteData = {
-            id: datetime.valueOf(),
+            id: currentNote.timestamp,
             title: titleRef.current.value,
-            timestamp: datetime.valueOf(),
-            content: note
+            timestamp: currentNote.timestamp,
+            content: content
         }
 
-        allNotes.push(noteData);
+        allNotes[editNoteIndex] = { ...noteData };
         localStorage.setItem('notes', JSON.stringify(allNotes));
-        setReset(!reset);
         setToast(true);
     }
 
-    let datetime = new Date();
+    console.log(toast);
     return (
         <div className="position-relative">
             <div className="p-3">
-                <p className="fs-1">Add a new note</p>
+                <p className="fs-1">Edit note</p>
                 <Card>
-                    <Card.Header>{datetime.toLocaleString('en-IN')}</Card.Header>
+                    <Card.Header>{new Date(currentNote.timestamp).toLocaleString('en-IN')}</Card.Header>
                     <Card.Body>
                         <Form onSubmit={onSubmit}>
                             <Form.Group controlId='title'>
@@ -66,23 +77,26 @@ export default function AddNote() {
                                     <Form.Group controlId='content'>
                                         <Form.Control 
                                             as='textarea'
-                                            value={note}
-                                            onChange={(e) => setNote(e.target.value)}
+                                            value={content}
+                                            onChange={(e) => setContent(e.target.value)}
                                             rows={10}
                                             placeholder='Type here'
                                         />
                                     </Form.Group>
                                 </Col>
-                                {note && (
+                                {content && (
                                     <Col>
                                         <Card style={{ padding: '5px 10px', height: '255px' }}>
-                                            <ReactMarkdown>{note}</ReactMarkdown>
+                                            <ReactMarkdown>{content}</ReactMarkdown>
                                         </Card>
                                     </Col>
                                 )}
                             </Row>
                             <Button type='submit' variant='primary'>
-                                Submit
+                                Save
+                            </Button>&nbsp;
+                            <Button variant='secondary' onClick={() => navigate('/')}>
+                                Cancel
                             </Button>
                             <ToastContainer className='p-3' position='top-start' style={{ zIndex: 1 }}>
                                 <Toast bg='success' onClose={() => setToast(false)} show={toast} delay={3000} autohide >

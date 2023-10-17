@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Navbar, Home, AddNote, Note, Settings } from './Components';
 import { useSelector } from 'react-redux';
+import EditNote from './Components/EditNote/EditNote';
 
 function App() {
   const navbar = useSelector(state => state.navbar);
@@ -29,6 +30,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/add' element={<AddNote />} />
+                <Route path='/edit/:noteId' element={<EditNote />} />
                 <Route path='/notes/:id' element={<Note />} />
                 <Route path='/settings' element={<Settings />} />
             </Routes>
