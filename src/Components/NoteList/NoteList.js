@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
-import moment from 'moment';
 import { ListGroup, Row, Col, Modal, Button, InputGroup, Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import ReactMarkdown from "react-markdown";
-import Controls from "./Controls";
 import PaginationComponent from "./Pagination";
+import ListItem from "./ListItem";
 
 const notes_per_page = 5;
 
@@ -14,11 +11,8 @@ export default function NoteList() {
     const [notesSearched, setNotesSearched] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
-    const [displayControls, setDisplayControls] = useState(false);
     const [deleteModal, setDeleteModal] = useState(false);
     const [searchVal, setSearchVal] = useState('');
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         let allNotes = localStorage.getItem("notes");
@@ -69,29 +63,7 @@ export default function NoteList() {
     const getList = () => {
         return (
             <ListGroup>
-                {notesDisplay.map((note) => (
-                    <div onMouseEnter={() => setDisplayControls(true)} onMouseLeave={() => setDisplayControls(false)}>
-                        <ListGroup.Item key={note.id}>
-                            <Row>
-                                <Col>
-                                    <b>{moment(note.timestamp).format('hh:mm A, Do MMM \'YY, dddd')}</b> - <div className="text-truncate"><ReactMarkdown>{note.title}</ReactMarkdown></div>
-                                </Col>
-                                <Col>
-                                    {
-                                        displayControls ? (
-                                            <div className='d-flex justify-content-end'>
-                                                <Controls 
-                                                    openDelete={() => setDeleteModal(note.id)} 
-                                                    openEdit={() => navigate(`/edit/${note.id}`)}    
-                                                />
-                                            </div>
-                                        ) : <></>
-                                    }
-                                </Col>
-                            </Row>
-                        </ListGroup.Item>
-                    </div>
-                ))}
+                {notesDisplay.map((note) => <ListItem note={note} setDeleteModal={setDeleteModal} />)}
             </ListGroup>
         );
     };
