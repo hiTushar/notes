@@ -12,10 +12,12 @@ export default function PaginationComponent(props) {
     }
 
     return (
-        <Pagination>
-            {
-                getItems()
-            }
-        </Pagination>
+        <div className='mb-2'>
+            <Pagination>
+                {
+                    getItems()
+                }
+            </Pagination>
+        </div>
     )
 }

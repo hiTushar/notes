@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { ListGroup, Row, Col, Modal, Button, InputGroup, Form } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import PaginationComponent from "./Pagination";
-import ListItem from "./ListItem";
+import Search from "./Search";
+import List from "./List";
 
 const notes_per_page = 5;
 
@@ -60,43 +61,23 @@ export default function NoteList() {
         setDeleteModal(false)
     }
 
-    const getList = () => {
-        return (
-            <ListGroup>
-                {notesDisplay.map((note) => <ListItem note={note} setDeleteModal={setDeleteModal} />)}
-            </ListGroup>
-        );
-    };
-
     return (
         <div>{notes && (
             <>
                 <div>
                     {
                         notesDisplay.length ? (
-                            <Row className="mb-3">
-                                <Col>
-                                    <InputGroup>
-                                        <Form.Control 
-                                            type='text'
-                                            placeholder='Search here'
-                                            onChange={e => setSearchVal(e.target.value.trim())}
-                                            value={searchVal}
-                                        />
-                                    </InputGroup>
-                                </Col>
-                                <Col></Col>
-                            </Row>
+                            <>
+                                <Search searchVal={searchVal} setSearchVal={setSearchVal} />
+                                <PaginationComponent
+                                    totalPage={totalPage} 
+                                    currentPage={currentPage} 
+                                    setCurrentPage={setCurrentPage}
+                                />
+                                <List notesDisplay={notesDisplay} setDeleteModal={setDeleteModal} />
+                            </>
                         ) : <></>
                     }
-                    <div className='mb-2'>
-                        <PaginationComponent
-                            totalPage={totalPage} 
-                            currentPage={currentPage} 
-                            setCurrentPage={setCurrentPage}
-                        />
-                    </div>
-                    {getList()}
                 </div>
                 <Modal show={deleteModal} onHide={() => setDeleteModal(false)}>
                     <Modal.Body>
