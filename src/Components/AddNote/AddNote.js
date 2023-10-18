@@ -7,7 +7,8 @@ import ReactMarkdown from "react-markdown";
 import { useNavigate } from "react-router-dom";
 
 export default function AddNote() {
-    let titleRef = useRef(null);
+    let titleRef = useRef('');
+    let dateTimeRef = useRef(new Date());
     const [note, setNote] = useState(null);
     const [toast, setToast] = useState(false);
     const [reset, setReset] = useState(0);
@@ -17,7 +18,8 @@ export default function AddNote() {
     useEffect(() => {
         // rerendering the component, using 'reset' state, so that we get the current date-time as the title of the new blank note
         setNote('');
-        titleRef.current.value = '';
+        titleRef.current = '';
+        dateTimeRef.current = new Date();
     }, [reset])
 
     const onSubmit = (event) => {
@@ -30,13 +32,13 @@ export default function AddNote() {
             allNotes = [];
         }
 
-        if(!titleRef.current.value.trim().length) {
-            titleRef.current.value = note;
+        if(!titleRef.current.trim().length) {
+            titleRef.current = note;
         }
         const noteData = {
-            id: datetime.valueOf(),
-            title: titleRef.current.value.trim(),
-            timestamp: datetime.valueOf(),
+            id: dateTimeRef.current.valueOf(),
+            title: titleRef.current.trim(),
+            timestamp: dateTimeRef.current.valueOf(),
             content: note
         }
 
@@ -46,13 +48,12 @@ export default function AddNote() {
         setToast(true);
     }
 
-    let datetime = new Date();
     return (
         <div className="position-relative">
             <div className="p-3">
                 <p className="fs-1">Add a new note</p>
                 <Card>
-                    <Card.Header>{datetime.toLocaleString('en-IN')}</Card.Header>
+                    <Card.Header>{dateTimeRef.current.toLocaleString('en-IN')}</Card.Header>
                     <Card.Body>
                         <Form onSubmit={onSubmit}>
                             <Form.Group controlId='title'>
@@ -79,7 +80,7 @@ export default function AddNote() {
                                 </Col>
                                 {note && (
                                     <Col>
-                                        <Card style={{ padding: '5px 10px', height: '255px' }}>
+                                        <Card style={{ padding: '5px 10px', height: '255px', overflow: 'scroll' }}>
                                             <ReactMarkdown>{note}</ReactMarkdown>
                                         </Card>
                                     </Col>
