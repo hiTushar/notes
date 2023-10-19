@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Toast, ToastContainer, Button, Card, Form, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-
 import ReactMarkdown from "react-markdown";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +17,7 @@ export default function AddNote() {
     useEffect(() => {
         // rerendering the component, using 'reset' state, so that we get the current date-time as the title of the new blank note
         setNote('');
-        titleRef.current = '';
+        titleRef.current.value = '';
         dateTimeRef.current = new Date();
     }, [reset])
 
@@ -32,12 +31,12 @@ export default function AddNote() {
             allNotes = [];
         }
 
-        if(!titleRef.current.trim().length) {
-            titleRef.current = note;
+        if(!titleRef.current.value.trim().length) {
+            titleRef.value.current = note;
         }
         const noteData = {
             id: dateTimeRef.current.valueOf(),
-            title: titleRef.current.trim(),
+            title: titleRef.current.value.trim(),
             timestamp: dateTimeRef.current.valueOf(),
             content: note
         }
