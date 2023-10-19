@@ -14,23 +14,25 @@ export default function NoteList() {
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
     const [deleteModal, setDeleteModal] = useState(false);
-    const [searchVal, setSearchVal] = useState('');
+    const [searchVal, setSearchVal] = useState("");
 
     useEffect(() => {
         let allNotes = localStorage.getItem("notes");
         if (allNotes) {
             allNotes = JSON.parse(allNotes);
-        }
-        else {
+        } else {
             allNotes = [];
         }
         setNotes(allNotes);
-    }, [])
+    }, []);
 
     useEffect(() => {
-        let filteredNotes = notes.filter(item => {
-            if(searchVal.length) {
-                return item.title.toLowerCase().includes(searchVal.toLowerCase()) || item.content.toLowerCase().includes(searchVal.toLowerCase())
+        let filteredNotes = notes.filter((item) => {
+            if (searchVal.length) {
+                return (
+                    item.title.toLowerCase().includes(searchVal.toLowerCase()) ||
+                    item.content.toLowerCase().includes(searchVal.toLowerCase())
+                );
             }
             return true;
         });
@@ -42,92 +44,103 @@ export default function NoteList() {
         setCurrentPage(0);
 
         let dateSectionsToDisplay = dateSectionsAll.slice(0, notes_per_page);
-        let reorganizedNotesToDisplay = dateSectionsToDisplay.reduce((all, dateSection) => {
-            all[dateSection] = [...reorganizedNotesList[dateSection]];
-            return all;
-        }, {})
+        let reorganizedNotesToDisplay = dateSectionsToDisplay.reduce(
+            (all, dateSection) => {
+                all[dateSection] = [...reorganizedNotesList[dateSection]];
+                return all;
+            },
+            {}
+        );
         setNotesDisplay(reorganizedNotesToDisplay);
-    }, [searchVal, notes])
+    }, [searchVal, notes]);
 
     useEffect(() => {
         let reorganizedNotesList = reorganizeNotes(notesSearched);
         let dateSectionsAll = Object.keys(reorganizedNotesList);
         setTotalPage(getTotalPages(dateSectionsAll, notes_per_page));
 
-        let dateSectionsToDisplay = dateSectionsAll.slice(currentPage * notes_per_page, (currentPage * notes_per_page) + notes_per_page);
-        let reorganizedNotesToDisplay = dateSectionsToDisplay.reduce((all, dateSection) => {
-            all[dateSection] = [...reorganizedNotesList[dateSection]];
-            return all;
-        }, {})
+        let dateSectionsToDisplay = dateSectionsAll.slice(
+            currentPage * notes_per_page,
+            currentPage * notes_per_page + notes_per_page
+        );
+        let reorganizedNotesToDisplay = dateSectionsToDisplay.reduce(
+            (all, dateSection) => {
+                all[dateSection] = [...reorganizedNotesList[dateSection]];
+                return all;
+            },
+            {}
+        );
         setNotesDisplay(reorganizedNotesToDisplay);
-    }, [currentPage, notesSearched])
+    }, [currentPage, notesSearched]);
 
     const reorganizeNotes = (allNotes) => {
         let reorganizeNotes = allNotes.reduce((all, note) => {
-            let date = moment(note.timestamp).startOf('date');
-            if(!all[date]) {
-                all[date] = []
+            let date = moment(note.timestamp).startOf("date");
+            if (!all[date]) {
+                all[date] = [];
             }
             all[date].push(note);
             return all;
-        }, {})
+        }, {});
         return reorganizeNotes;
-    }
+    };
 
     const getTotalPages = (currentNotes, notes_per_page) => {
         let totalNoOfPages = 0;
-        if(currentNotes.length % notes_per_page !== 0) {
+        if (currentNotes.length % notes_per_page !== 0) {
             totalNoOfPages = parseInt(currentNotes.length / notes_per_page) + 1;
-        }
-        else {
+        } else {
             totalNoOfPages = parseInt(currentNotes.length / notes_per_page);
         }
         return totalNoOfPages;
-    }
+    };
 
     const deleteNote = (noteId) => {
-        let newNotesList = notes.filter(note => note.id !== noteId);
+        let newNotesList = notes.filter((note) => note.id !== noteId);
         setNotes(newNotesList);
-        localStorage.setItem('notes', JSON.stringify(newNotesList));
-        setDeleteModal(false)
-    }
+        localStorage.setItem("notes", JSON.stringify(newNotesList));
+        setDeleteModal(false);
+    };
 
     return (
-        <div>{notes && (
-            <>
-                <div>
-                    {
-                        notes.length ? (
+        <div>
+            {notes && (
+                <>
+                    <div>
+                        {notes.length ? (
                             <Search searchVal={searchVal} setSearchVal={setSearchVal} />
-                        ) : <></>
-                    }
-                    {
-                        Object.keys(notesDisplay).length ? (
+                        ) : (
+                            <></>
+                        )}
+                        {Object.keys(notesDisplay).length ? (
                             <>
                                 <PaginationComponent
-                                    totalPage={totalPage} 
-                                    currentPage={currentPage} 
+                                    totalPage={totalPage}
+                                    currentPage={currentPage}
                                     setCurrentPage={setCurrentPage}
                                 />
-                                <List notesDisplay={notesDisplay} setDeleteModal={setDeleteModal} />
+                                <List
+                                    notesDisplay={notesDisplay}
+                                    setDeleteModal={setDeleteModal}
+                                />
                             </>
-                        ) : <></>
-                    }
-                </div>
-                <Modal show={deleteModal} onHide={() => setDeleteModal(false)}>
-                    <Modal.Body>
-                        Delete this?
-                    </Modal.Body>
-                    <Modal.Footer style={{ borderTop: 'none' }}>
-                        <Button variant='danger' onClick={() => deleteNote(deleteModal)}>
-                            Delete
-                        </Button>
-                        <Button variant='secondary' onClick={() => setDeleteModal(false)}>
-                            Cancel
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            </>
-        )}</div>
-    )
+                        ) : (
+                            <></>
+                        )}
+                    </div>
+                    <Modal show={deleteModal} onHide={() => setDeleteModal(false)}>
+                        <Modal.Body>Delete this?</Modal.Body>
+                        <Modal.Footer style={{ borderTop: "none" }}>
+                            <Button variant="danger" onClick={() => deleteNote(deleteModal)}>
+                                Delete
+                            </Button>
+                            <Button variant="secondary" onClick={() => setDeleteModal(false)}>
+                                Cancel
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </>
+            )}
+        </div>
+    );
 }

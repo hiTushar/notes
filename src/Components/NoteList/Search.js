@@ -7,15 +7,15 @@ export default function Search(props) {
         <Row className="mb-3">
             <Col>
                 <InputGroup>
-                    <Form.Control 
-                        type='text'
-                        placeholder='Search here'
-                        onChange={e => setSearchVal(e.target.value.trim())}
+                    <Form.Control
+                        type="text"
+                        placeholder="Search here"
+                        onChange={(e) => setSearchVal(e.target.value.trim())}
                         value={searchVal}
                     />
                 </InputGroup>
             </Col>
             <Col></Col>
         </Row>
-    )
+    );
 }
