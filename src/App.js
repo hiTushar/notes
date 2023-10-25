@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
-import { Navbar, Home, AddNote, Note, Settings } from "./Components";
-import { useSelector } from "react-redux";
-import EditNote from "./Components/EditNote/EditNote";
 import { useContext } from "react";
+import { useSelector } from "react-redux";
+import { Home, Navbar, Note, AddNote, ViewNote, Settings } from "./Components";
+import EditNote from "./Components/EditNote/EditNote";
 import { ThemeContext } from "./Context/ThemeContext";
+import "./App.css";
 
 function App() {
   const navbar = useSelector((state) => state.navbar);
@@ -39,6 +39,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/add" element={<AddNote />} />
               <Route path="/edit/:noteId" element={<EditNote />} />
+              <Route path="/view/:noteId" element={<ViewNote />} />
               <Route path="/notes/:id" element={<Note />} />
               <Route path="/settings" element={<Settings />} />
             </Routes>

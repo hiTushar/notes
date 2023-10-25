@@ -1,6 +1,6 @@
 import { Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import NoteList from "../NoteList/NoteList";
+import { NoteList } from "../index";
 import { useContext } from "react";
 import { ThemeContext } from "../../Context/ThemeContext";
 
