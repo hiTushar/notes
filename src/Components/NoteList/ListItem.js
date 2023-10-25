@@ -31,6 +31,7 @@ export default function ListItem(props) {
                             <Controls
                                 openDelete={() => setDeleteModal(note.id)}
                                 openEdit={() => navigate(`/edit/${note.id}`)}
+                                openView={() => navigate(`/view/${note.id}`)}
                             />
                         </div>
                     ) : (
