@@ -68,7 +68,7 @@ export default function ViewNote(props) {
             <div ref={noteRef}>
                 <style>{getPageMargins()}</style>
                 <Card className="mt-3">
-                    <Card.Header>{moment(currentNote.timestamp).format("hh:mm A, dddd, Do MMM 'YY")}</Card.Header>
+                    <Card.Header>{moment(currentNote.timestamp).format("hh:mm A, ddd, Do MMM 'YY")}</Card.Header>
                     <Card.Body>
                         <Card.Title>{titleRef.current.value}</Card.Title>
                         <ReactMarkdown>

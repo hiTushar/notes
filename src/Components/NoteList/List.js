@@ -7,7 +7,7 @@ export default function List(props) {
     return Object.keys(notesDisplay).map((date) => {
         return (
             <Card className="mb-3 p-3">
-                <Card.Title>{moment(date).format("dddd, Do MMM 'YY")}</Card.Title>
+                <Card.Title>{moment(date).format("ddd, Do MMM 'YY")}</Card.Title>
                 <Card.Body>
                     <Row>
                         {notesDisplay[date].map((note) => (
